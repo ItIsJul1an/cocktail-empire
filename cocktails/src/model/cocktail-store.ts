@@ -3,13 +3,13 @@ import { BehaviorSubject } from "rxjs"
 
 //Singel - Source - Of - Truth
 export interface CocktailStore {
-    readonly cocktailsArray: Cocktail[]
+    readonly cocktails: Cocktail[]
 }
 const initialState: CocktailStore = {
-    cocktailsArray: []
+    cocktails: []
 }
 
-const cocktailStore = new BehaviorSubject<CocktailStore>(initialState);
+const cocktailStore = new BehaviorSubject<CocktailStore>(initialState)
 export default cocktailStore
 
 
