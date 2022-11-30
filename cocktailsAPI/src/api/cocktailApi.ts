@@ -1,5 +1,5 @@
 /**
- * Run this Express API with npx ts-node cocktailApi.ts
+ * Run this Express API with npx ts-node cocktailsApi.ts
 */
 import express, { Request, Response } from 'express'
 import CocktailStore from '../model/cocktailStore'
