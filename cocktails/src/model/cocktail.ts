@@ -4,11 +4,12 @@ export type Ingredient = {
 }
 
 export interface CocktailEntity {
-    strDrink: string,
-    strVideo?: string,
-    strAlcoholic: string, 
-    strGlass: string, 
-    strInstructions: string, 
-    strDrinkThumb: string, 
-    strIngredients: Ingredient[]
+    id: number,
+    drink: string,
+    video: string,
+    alcoholic: boolean,
+    glass: string,
+    instructions: string,
+    drinkThumb: string,
+    ingredients: Ingredient[]
 }

@@ -1,12 +1,13 @@
 import { CocktailEntity, Ingredient } from "./model/cocktail"
+import store from "./model/store"
 import produce from "immer"
 
-const url = "https://www.thecocktaildb.com/api/json/v1/1/search.php?f=m"
+const url = "http://172.16.101.9:5000/all"
 
 class CocktailService {
     async fetchCocktails() {
 
-        const response = await fetch(url)
+      /*  const response = await fetch(url)
         let cocktails: [CocktailEntity] = await response.json()
 
         let drinks = eval("cocktails['drinks']")
@@ -34,8 +35,18 @@ class CocktailService {
             }
 
             readyDrinks.push(c)
-        }
+        }*/
+        const response = await fetch(url)
+        let cocktails: [CocktailEntity] = await response.json()
+        let nextState = produce(store.getValue(), draft => {
+            draft.cocktails = cocktails
+        })
+        store.next(nextState)
+        console.log(cocktails)
+
+
     }
 }
 const cocktailService = new CocktailService()
+
 export default cocktailService
