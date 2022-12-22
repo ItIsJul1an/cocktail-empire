@@ -6,7 +6,7 @@ import store from "../model/store"
 import CocktailService from "../cocktail-service"
 import cocktailService from "../cocktail-service"
 
-let id = 0
+let id = 1
 
 const tableCocktailTemplate = html`
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -74,9 +74,6 @@ class AppComponent extends HTMLElement{
             const row2 = body1.insertRow()
             render(rowIngedientTemplate(ingredient), row2)
         })
-
-        
-
 
     }
 
