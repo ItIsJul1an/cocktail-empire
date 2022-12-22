@@ -35,10 +35,10 @@ class CocktailTableComponent extends HTMLElement {
         const body = this.root.querySelector("tbody")
         cocktails.forEach(cocktail => {
             const row = body.insertRow()
-          /* row.onclick = () => {
+           row.onclick = () => {
                 const event = new CustomEvent("cocktail-selected", { detail: { cocktail } })
                 this.dispatchEvent(event)
-            }*/
+            }
             render(rowTemplate(cocktail), row)
         })
     }
