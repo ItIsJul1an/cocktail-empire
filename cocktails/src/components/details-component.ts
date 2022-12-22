@@ -3,14 +3,12 @@ import {html, render} from "lit-html"
 import {CocktailEntity} from "../model/cocktail"
 import {Ingredient} from "../model/cocktail"
 import store from "../model/store"
-import CocktailService from "../cocktail-service"
-import cocktailService from "../cocktail-service"
 
 let id = 1
 
 const tableCocktailTemplate = html`
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <img src="" alt="Cocktail Picture">
+    <img src="" id="cocktailImage" alt="Cocktail Picture">
     <table class="w3-table w3-striped w3-bordered">
         <thead>
             <tr>
@@ -29,6 +27,10 @@ const tableCocktailTemplate = html`
         </thead>
         <tbody class="tbody2"></tbody>
     </table>
+    <br><br>
+    <iframe width="420" height="315" id ="video"
+        src="">
+    </iframe>
     `
 
 const rowCocktailTemplate = (cocktail: CocktailEntity) => html`
@@ -71,10 +73,15 @@ class AppComponent extends HTMLElement{
 
 
         currentCocktail.ingredients.forEach(ingredient =>{
-            const row2 = body1.insertRow()
+            const row2 = body2.insertRow()
             render(rowIngedientTemplate(ingredient), row2)
         })
 
+        const image = document.getElementById("cocktailImage") as HTMLImageElement
+        image.src=currentCocktail.drinkThumb
+
+        const video = document.getElementById("video") as HTMLVideoElement
+        video.src=currentCocktail.video
     }
 
     getCocktailById(): CocktailEntity{
@@ -87,4 +94,4 @@ class AppComponent extends HTMLElement{
     }
 
 }
-customElements.define("user-table-component", AppComponent)
+customElements.define("details-component", AppComponent)
