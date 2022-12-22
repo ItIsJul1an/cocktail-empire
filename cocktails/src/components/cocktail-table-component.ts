@@ -36,6 +36,7 @@ class CocktailTableComponent extends HTMLElement {
         cocktails.forEach(cocktail => {
             const row = body.insertRow()
            row.onclick = () => {
+            console.log("clicked"+ row.id)
                 const event = new CustomEvent("cocktail-selected", { detail: { cocktail } })
                 this.dispatchEvent(event)
             }
