@@ -2,7 +2,7 @@ import { CocktailEntity, Ingredient } from "./model/cocktail"
 import store from "./model/store"
 import produce from "immer"
 
-const url = "http://172.16.101.9:5000/all"
+const url = "http://172.16.100.58:5000/all"
 
 class CocktailService {
     async fetchCocktails() {

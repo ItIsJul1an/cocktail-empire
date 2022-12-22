@@ -1,10 +1,12 @@
 import {html, render} from "lit-html"
+import { SourceMapDevToolPlugin } from "webpack"
 
 import {CocktailEntity} from "../model/cocktail"
 import {Ingredient} from "../model/cocktail"
 import store from "../model/store"
 
 let id = 1
+let currentCocktail:CocktailEntity;
 
 const tableCocktailTemplate = html`
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -53,24 +55,26 @@ class AppComponent extends HTMLElement{
         this.root = this.attachShadow({ mode: "closed" })
     }
 
+    attributeChangedCallback(name: string, oldValue: number, value: number) {
+        id = 17180//value
+        console.log("TODO: display user", value)
+    }
+
     async connectedCallback() {
+        store.subscribe(model => this.getCocktailById(model.cocktails))
         this.render()
     }
 
-
     private render() {
         render(tableCocktailTemplate, this.root)
-        render(tableIngredientTemplate, this.root)
+        //render(tableIngredientTemplate, this.root)
 
         const body1:HTMLTableSectionElement = this.root.querySelector("tbody1")
         const body2:HTMLTableSectionElement = this.root.querySelector("tbody2")
 
-        let currentCocktail:CocktailEntity = this.getCocktailById()
-
-
+        console.log("Current Cocktail "+currentCocktail)
         const row1 = body1.insertRow()
         render(rowCocktailTemplate(currentCocktail), row1)
-
 
         currentCocktail.ingredients.forEach(ingredient =>{
             const row2 = body2.insertRow()
@@ -84,10 +88,10 @@ class AppComponent extends HTMLElement{
         video.src=currentCocktail.video
     }
 
-    getCocktailById(): CocktailEntity{
-        store.value.cocktails.forEach(cocktail =>{
+    getCocktailById(cocktails :CocktailEntity[]): CocktailEntity{
+        cocktails.forEach(cocktail =>{
             if (cocktail.id == id){
-                return cocktail;
+                currentCocktail = cocktail;
             }
         })
         return(null);

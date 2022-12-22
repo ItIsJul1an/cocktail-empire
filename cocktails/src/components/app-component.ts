@@ -1,9 +1,8 @@
 import {html, render} from "lit-html"
-import "./user-table-component"
-import "./user-component"
+import "./details-component"
 
 const template = html `
-<"details-component id="user"></"details-component>
+<details-component id="details"></details-component>
 `
 
 class AppComponent extends HTMLElement{
@@ -20,15 +19,8 @@ connectedCallback(){ //Wird aufgerufen wenn app-component vorkommt und in Baum a
 
 render (){
     render(template, this.shadowRoot)
-    const userTableComponent = this.shadowRoot.getElementById("table")
-    const userComponent: HTMLElement = this.shadowRoot.getElementById("user")
-    userTableComponent.addEventListener("user-selected", (e: CustomEvent) =>{ //wenn in user-tabel-component user-selected ausgefüht wird dann wird das ausgefühts
-        const user = e.detail.user
-        console.log("Detail selected", e.detail.user)
-        userComponent.setAttribute("id", user.id)
-        userTableComponent.style.display = "none"
-        userComponent.style.display = "block"
-    })
+    const detailsComponent: HTMLElement = this.shadowRoot.getElementById("details")
+    detailsComponent.setAttribute("id", "1")
 }
 }
 customElements.define("app-component", AppComponent)
