@@ -7,7 +7,8 @@ const url = "http://localhost:5000/all"
 class CocktailService {
     async fetchCocktails() {
 
-      /*  const response = await fetch(url)
+      /*  
+      const response = await fetch(url)
         let cocktails: [CocktailEntity] = await response.json()
 
         let drinks = eval("cocktails['drinks']")
