@@ -2,12 +2,13 @@ import { CocktailEntity, Ingredient } from "./model/cocktail"
 import store from "./model/store"
 import produce from "immer"
 
-const url = "http://172.16.100.58:5000/all"
+const url = "http://172.16.100.180:5000/all"
 
 class CocktailService {
     async fetchCocktails() {
 
-      /*  const response = await fetch(url)
+      /*  
+      const response = await fetch(url)
         let cocktails: [CocktailEntity] = await response.json()
 
         let drinks = eval("cocktails['drinks']")
