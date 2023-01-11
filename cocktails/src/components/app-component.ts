@@ -20,7 +20,7 @@ connectedCallback(){ //Wird aufgerufen wenn app-component vorkommt und in Baum a
 render (){
     render(template, this.shadowRoot)
     const detailsComponent: HTMLElement = this.shadowRoot.getElementById("details")
-    detailsComponent.setAttribute("id", "1")
+    detailsComponent.setAttribute("id", "17180")
 }
 }
 customElements.define("app-component", AppComponent)
