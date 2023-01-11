@@ -11,6 +11,10 @@ module.exports = {
         use: 'ts-loader',
         exclude: /node_modules/
       },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"],
+      },
     ],
   },
   resolve: { //Beim import wird geschaut ob es ein ts oder js file mit diesem Namen gibt

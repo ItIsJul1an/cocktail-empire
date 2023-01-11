@@ -2,7 +2,7 @@ import { CocktailEntity, Ingredient } from "./model/cocktail"
 import store from "./model/store"
 import produce from "immer"
 
-const url = "http://172.16.100.180:5000/search/m"
+const url = "http://localhost:5000/search/m"
 
 class CocktailService {
 
