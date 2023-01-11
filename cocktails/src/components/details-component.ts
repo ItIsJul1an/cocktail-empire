@@ -1,124 +1,101 @@
-import {html, render} from "lit-html"
+import { html, render } from "lit-html"
 import { SourceMapDevToolPlugin } from "webpack"
 
-import {CocktailEntity} from "../model/cocktail"
-import {Ingredient} from "../model/cocktail"
+import { CocktailEntity } from "../model/cocktail"
+import { Ingredient } from "../model/cocktail"
 import store from "../model/store"
 
-let id = 1
-let currentCocktail:CocktailEntity;
 
-const tableCocktailTemplate = html`
+const tableHTML = html`
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    
+
     <img id="cocktailImage" alt="Cocktail Picture">
     <table class="w3-table w3-striped w3-bordered">
         <thead>
             <tr>
-            <th>ID</th><th>Name</th><th>Alcoholic</th><th>Glass</th><th>Instructions</th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Alcoholic </th>
+                <th>Glass</th>
+                <th>Instructions</th>
             </tr>
         </thead>
-        <tbody class="tbody1"></tbody>
+        <tbody class="mainTable"></tbody>
     </table>
-    `
-    const tableIngredientTemplate = html`
+
     <table class="w3-table w3-striped w3-bordered">
         <thead>
             <tr>
-            <th>Name</th><th>Measure</th>
+                <th colspan="2">Ingredients</th>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <th>Measure</th>
             </tr>
         </thead>
-        <tbody class="tbody2"></tbody>
+        <tbody class="ingredientsTable"></tbody>
     </table>
-    <br><br>
-    <iframe width="420" height="315" class ="video">
-    </iframe>
-    `
+    </br>
+    <iframe width="420" height="315" id="ytIframe" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
+
+`
 
 const rowCocktailTemplate = (cocktail: CocktailEntity) => html`
     <td>${cocktail.id}</td><td>${cocktail.drink}</td><td>${cocktail.alcoholic}</td><td>${cocktail.glass}</td><td>${cocktail.instructions}</td>
 `
 
 const rowIngedientTemplate = (ingredient: Ingredient) => html`
-    <td>${ingredient.name}</td><td>${ingredient.name}</td>
+    <td>${ingredient.name}</td><td>${ingredient.measure}</td>
 `
 
-class AppComponent extends HTMLElement{
+class DetailsComponent extends HTMLElement {
+
     private root: ShadowRoot
+    private currentCocktail: CocktailEntity;
 
     static get observedAttributes() {
-        return ["id"]
+        return ["cocktailid"]
     }
 
     constructor() {
         super()
-        this.root = this.attachShadow({ mode: "closed" })
+        this.root = this.attachShadow({ mode: "open" })
     }
 
-    attributeChangedCallback(name: string, oldValue: number, value: number) {
-        id = value
-        console.log("TODO: display user", value)
-        
+    attributeChangedCallback(name: string, oldValue: string, value: string) {
+        this.currentCocktail = store.getValue().getCocktailById(Number(value))
+
+        console.log(this.currentCocktail)
+
+        const mainTable: HTMLTableSectionElement = this.root.querySelector(".mainTable")
+        const ingredientsTable: HTMLTableSectionElement = this.root.querySelector(".ingredientsTable")
+
+        // Set image
+        const image = this.root.getElementById("cocktailImage") as HTMLImageElement
+        image.src = this.currentCocktail.drinkThumb
+
+        // Set iframe
+        const iframe = this.root.getElementById("ytIframe") as HTMLIFrameElement
+        iframe.src = "https://www.youtube.com/embed/LEkyOWW80U8"
+
+        // Insert cocktail data
+        const row1 = mainTable.insertRow()
+        render(rowCocktailTemplate(this.currentCocktail), row1)
+
+        // Insert ingredients
+        this.currentCocktail.ingredients.forEach(ingredient => {
+            const row2 = ingredientsTable.insertRow()
+            render(rowIngedientTemplate(ingredient), row2)
+        })
     }
 
     async connectedCallback() {
-        setTimeout(()=> {
-        store.subscribe(model => this.getCocktailById(model.cocktails))
         this.render()
-            },6000)
-        
     }
 
     private render() {
-        render(tableCocktailTemplate, this.root)
-       // render(tableIngredientTemplate, this.root)
-
-        const body1:HTMLTableSectionElement = this.root.querySelector(".tbody1")
-        const body2:HTMLTableSectionElement = this.root.querySelector(".tbody2")
-
-        console.log(body1)
-        
-
-        console.log("Current Cocktail "+currentCocktail)
-
-
-        const image = this.root.getElementById("cocktailImage") as HTMLImageElement
-        image.src=currentCocktail.drinkThumb
-
-        const iframe = document.createElement("iframe");
-        this.root.append(iframe)
-        console.log(iframe)
-        iframe.src ="https://www.youtube.com/embed?v=LEkyOWW80U8"
-        body2.appendChild(iframe);
-
-        const video = this.root.querySelector(".video") as HTMLIFrameElement
-        // video.src=currentCocktail.video
-        console.log(video)
-        video.src = "https://www.youtube.com/watch?v=LEkyOWW80U8"
-
-
-
-        const row1 = body1.insertRow()
-        console.log(currentCocktail.drinkThumb + " cool")
-        render(rowCocktailTemplate(currentCocktail), row1)
-
-        currentCocktail.ingredients.forEach(ingredient =>{
-            const row2 = body2.insertRow()
-            render(rowIngedientTemplate(ingredient), row2)
-        })
-
-        
-        
+        render(tableHTML, this.root)
     }
-
-    getCocktailById(cocktails :CocktailEntity[]): CocktailEntity{
-        cocktails.forEach(cocktail =>{
-            if (cocktail.id == id){
-                currentCocktail = cocktail;
-            }
-        })
-        return(null);
-    }
-
 }
-customElements.define("details-component", AppComponent)
+
+customElements.define("details-component", DetailsComponent)
