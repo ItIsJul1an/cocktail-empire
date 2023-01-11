@@ -10,7 +10,8 @@ let currentCocktail:CocktailEntity;
 
 const tableCocktailTemplate = html`
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <img src="" id="cocktailImage" alt="Cocktail Picture">
+    
+    <img id="cocktailImage" alt="Cocktail Picture">
     <table class="w3-table w3-striped w3-bordered">
         <thead>
             <tr>
@@ -30,8 +31,7 @@ const tableCocktailTemplate = html`
         <tbody class="tbody2"></tbody>
     </table>
     <br><br>
-    <iframe width="420" height="315" id ="video"
-        src="">
+    <iframe width="420" height="315" class ="video">
     </iframe>
     `
 
@@ -56,24 +56,50 @@ class AppComponent extends HTMLElement{
     }
 
     attributeChangedCallback(name: string, oldValue: number, value: number) {
-        id = 17180//value
+        id = value
         console.log("TODO: display user", value)
+        
     }
 
     async connectedCallback() {
+        setTimeout(()=> {
         store.subscribe(model => this.getCocktailById(model.cocktails))
         this.render()
+            },6000)
+        
     }
 
     private render() {
         render(tableCocktailTemplate, this.root)
-        //render(tableIngredientTemplate, this.root)
+       // render(tableIngredientTemplate, this.root)
 
-        const body1:HTMLTableSectionElement = this.root.querySelector("tbody1")
-        const body2:HTMLTableSectionElement = this.root.querySelector("tbody2")
+        const body1:HTMLTableSectionElement = this.root.querySelector(".tbody1")
+        const body2:HTMLTableSectionElement = this.root.querySelector(".tbody2")
+
+        console.log(body1)
+        
 
         console.log("Current Cocktail "+currentCocktail)
+
+
+        const image = this.root.getElementById("cocktailImage") as HTMLImageElement
+        image.src=currentCocktail.drinkThumb
+
+        const iframe = document.createElement("iframe");
+        this.root.append(iframe)
+        console.log(iframe)
+        iframe.src ="https://www.youtube.com/embed?v=LEkyOWW80U8"
+        body2.appendChild(iframe);
+
+        const video = this.root.querySelector(".video") as HTMLIFrameElement
+        // video.src=currentCocktail.video
+        console.log(video)
+        video.src = "https://www.youtube.com/watch?v=LEkyOWW80U8"
+
+
+
         const row1 = body1.insertRow()
+        console.log(currentCocktail.drinkThumb + " cool")
         render(rowCocktailTemplate(currentCocktail), row1)
 
         currentCocktail.ingredients.forEach(ingredient =>{
@@ -81,11 +107,8 @@ class AppComponent extends HTMLElement{
             render(rowIngedientTemplate(ingredient), row2)
         })
 
-        const image = document.getElementById("cocktailImage") as HTMLImageElement
-        image.src=currentCocktail.drinkThumb
-
-        const video = document.getElementById("video") as HTMLVideoElement
-        video.src=currentCocktail.video
+        
+        
     }
 
     getCocktailById(cocktails :CocktailEntity[]): CocktailEntity{
