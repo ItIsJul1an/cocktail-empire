@@ -12,6 +12,7 @@ const tableCocktailTemplate = html`
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     
     <img id="cocktailImage" alt="Cocktail Picture" width="200px">
+    
     <table class="w3-table w3-striped w3-bordered">
         <thead>
             <tr>
@@ -31,6 +32,7 @@ const tableCocktailTemplate = html`
         <tbody class="tbody2"></tbody>
     </table>
     <br><br>
+    <iframe width="420" height="315" class ="video">
     <iframe width="420" height="315" class ="video">
     </iframe>
     `
@@ -71,7 +73,7 @@ class AppComponent extends HTMLElement{
 
     private render() {
         render(tableCocktailTemplate, this.root)
-        //render(tableIngredientTemplate, this.root)
+       // render(tableIngredientTemplate, this.root)
 
         const body1:HTMLTableSectionElement = this.root.querySelector(".tbody1")
         const body2:HTMLTableSectionElement = this.root.querySelector(".tbody2")
