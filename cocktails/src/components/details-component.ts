@@ -8,9 +8,16 @@ import store from "../model/store"
 
 const tableHTML = html`
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" type="text/css" href="../styles/index.css">
+    <h1 id="headline" style="font-weight:bold;text-align:center;margin-bottom:35px"></h1>
+    
+    <div style="height: 80vh;margin-bottom:35px">
+        <iframe style="display:flex;justify-content:center;margin-bottom:35px" width="100%" height="100%" id="frame" allow='autoplay'></iframe>
+    </div>
 
-    <img id="cocktailImage" alt="Cocktail Picture">
-    <table class="w3-table w3-striped w3-bordered">
+    <h2 style="font-weight:bold;margin-bottom:35px">Details</h2>
+
+    <table class="w3-table w3-bordered">
         <thead>
             <tr>
                 <th>ID</th>
@@ -18,12 +25,13 @@ const tableHTML = html`
                 <th>Alcoholic </th>
                 <th>Glass</th>
                 <th>Instructions</th>
+                <th>Image</th>
             </tr>
         </thead>
         <tbody class="mainTable"></tbody>
     </table>
-
-    <table class="w3-table w3-striped w3-bordered">
+    </br></br>
+    <table class="w3-table w3-bordered">
         <thead>
             <tr>
                 <th colspan="2">Ingredients</th>
@@ -36,12 +44,13 @@ const tableHTML = html`
         <tbody class="ingredientsTable"></tbody>
     </table>
     </br>
-    <iframe width="420" height="315" id="ytIframe" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
 
+    <a href="/">← Back to overview</a></br>
 `
 
 const rowCocktailTemplate = (cocktail: CocktailEntity) => html`
     <td>${cocktail.id}</td><td>${cocktail.drink}</td><td>${cocktail.alcoholic}</td><td>${cocktail.glass}</td><td>${cocktail.instructions}</td>
+    <td><img src="${cocktail.drinkThumb}" width="200"></td>
 `
 
 const rowIngedientTemplate = (ingredient: Ingredient) => html`
@@ -64,19 +73,14 @@ class DetailsComponent extends HTMLElement {
 
     attributeChangedCallback(name: string, oldValue: string, value: string) {
         this.currentCocktail = store.getValue().getCocktailById(Number(value))
-
-        console.log(this.currentCocktail)
+        this.root.getElementById("headline").innerHTML = "" + this.currentCocktail.drink
 
         const mainTable: HTMLTableSectionElement = this.root.querySelector(".mainTable")
         const ingredientsTable: HTMLTableSectionElement = this.root.querySelector(".ingredientsTable")
 
-        // Set image
-        const image = this.root.getElementById("cocktailImage") as HTMLImageElement
-        image.src = this.currentCocktail.drinkThumb
-
         // Set iframe
-        const iframe = this.root.getElementById("ytIframe") as HTMLIFrameElement
-        iframe.src = "https://www.youtube.com/embed/LEkyOWW80U8"
+        const frame = this.root.getElementById("frame") as HTMLIFrameElement
+        frame.src = this.currentCocktail.video.replace("watch?v=", "embed/") + "?autoplay=1"
 
         // Insert cocktail data
         const row1 = mainTable.insertRow()
@@ -85,6 +89,7 @@ class DetailsComponent extends HTMLElement {
         // Insert ingredients
         this.currentCocktail.ingredients.forEach(ingredient => {
             const row2 = ingredientsTable.insertRow()
+
             render(rowIngedientTemplate(ingredient), row2)
         })
     }

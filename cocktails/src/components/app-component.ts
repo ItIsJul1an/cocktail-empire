@@ -1,11 +1,12 @@
 import { html, render } from "lit-html"
 import "./details-component"
+import "./cocktail-table-component"
 import store from "../model/store"
 
-const template = html`
-<details-component id="details"></details-component>
+const appComponentTemplate = html`
+<cocktail-table-component id="table"></cocktail-table-component>
+<details-component id="table"></details-component>
 `
-
 class AppComponent extends HTMLElement {
 
     private root: ShadowRoot
@@ -15,20 +16,27 @@ class AppComponent extends HTMLElement {
         this.root = this.attachShadow({ mode: "open" })
     }
 
-    connectedCallback() { //Wird aufgerufen wenn app-component vorkommt und in Baum angehängt wurde
-        console.log("Connected")
+    connectedCallback() {
+        console.log("AppComponent connected")
         this.renderComponents()
     }
 
     private renderComponents() {
-        render(template, this.root)
+        render(appComponentTemplate, this.root)
 
-        
-            const detailsComponent: HTMLElement = this.shadowRoot.querySelector("details-component")
-            detailsComponent.setAttribute("cocktailId", "17180")
-            
+        const tableComponent: HTMLElement = this.shadowRoot.querySelector("cocktail-table-component")
+        const detailComponent: HTMLElement = this.shadowRoot.querySelector("details-component")
+       
+        tableComponent.style.display = "block"
+        detailComponent.style.display = "none"
 
-            console.log(store.getValue().cocktails)
+        tableComponent.addEventListener("cocktail-selected", (e: CustomEvent) => {
+            const cocktail = e.detail.cocktail
+
+            detailComponent.setAttribute("cocktailid", cocktail.id)
+            tableComponent.style.display = "none"
+            detailComponent.style.display = "block"
+        })
     }
 }
 

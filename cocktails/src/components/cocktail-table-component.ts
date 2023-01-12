@@ -5,6 +5,9 @@ import { CocktailEntity } from "../model/cocktail"
 
 const tableTemplate = html`
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" type="text/css" href="../styles/index.css">
+<h1 style="font-weight:bold;margin-bottom:35px">Welcome to Cocktail Empire</h1>
+
 <table class="w3-table w3-striped w3-bordered w3-centered w3-hoverable">
     <thead>
         <tr>
@@ -41,7 +44,7 @@ class CocktailTableComponent extends HTMLElement {
     }
 
     async connectedCallback() {
-        console.log("ConnectedCallback")
+        console.log("CocktailTableComponent connected")
 
         store.subscribe(model => this.render(model.cocktails))
         cocktailService.fetchCocktails()
@@ -59,8 +62,6 @@ class CocktailTableComponent extends HTMLElement {
             const row = body.insertRow()
 
             row.onclick = () => {
-                console.log("clicked" + row.id)
-
                 const event = new CustomEvent("cocktail-selected", { detail: { cocktail } })
                 this.dispatchEvent(event)
             }
