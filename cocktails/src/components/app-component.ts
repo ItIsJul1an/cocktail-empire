@@ -1,36 +1,35 @@
 import { html, render } from "lit-html"
-import "./cocktail-table-component"
+import "./details-component"
+import store from "../model/store"
 
 const template = html`
-<h1>Cocktails</h1>
-<cocktail-table-component id="table">
-</cocktail-table-component>
-<cocktail-component id="cocktail"></cocktail-component>
+<details-component id="details"></details-component>
 `
 
-
-
 class AppComponent extends HTMLElement {
+
+    private root: ShadowRoot
+
     constructor() {
         super()
-        this.attachShadow({ mode: "open" })
+        this.root = this.attachShadow({ mode: "open" })
     }
-    connectedCallback() {
-        console.log("connected")
-        this.render()
 
+    connectedCallback() { //Wird aufgerufen wenn app-component vorkommt und in Baum angehängt wurde
+        console.log("Connected")
+        this.renderComponents()
     }
-    render() {
-        render(template, this.shadowRoot)
-        const cocktailTableComponent = this.shadowRoot.getElementById("table")
-        const cocktailComponent : HTMLElement = this.shadowRoot.querySelector("cocktail-component")
-        cocktailTableComponent.addEventListener("cocktail-selected", (e: CustomEvent)=>{
-            const cocktail = e.detail.cocktail
-            console.log("cocktail Selected", cocktail)
-            cocktailComponent.setAttribute("id", cocktail.id)
-            cocktailTableComponent.style.display = "none"
-            cocktailComponent.style.display ="block"
-        })
+
+    private renderComponents() {
+        render(template, this.root)
+
+        
+            const detailsComponent: HTMLElement = this.shadowRoot.querySelector("details-component")
+            detailsComponent.setAttribute("cocktailId", "17180")
+            
+
+            console.log(store.getValue().cocktails)
     }
 }
+
 customElements.define("app-component", AppComponent)
