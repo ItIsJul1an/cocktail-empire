@@ -1,0 +1,99 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600;800&display=swap");
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  outline: unset;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+
+  outline: unset;
+  border: unset;
+
+  font-family: "Poppins", sans-serif !important;
+}
+
+body {
+  padding: 15px;
+}
+
+#basic-table {
+  /*height: 350px;*/
+  /*width: 800px;*/
+  width: 100%;
+
+  border-collapse: collapse;
+  border-spacing: unset;
+}
+
+#basic-table--head {
+  height: 75px;
+  background-color: var(--nl-clr-2);
+}
+
+#basic-table--head th {
+  padding: 0 20px;
+}
+
+/* The first th element on the left side will have a left outer border-radius */
+#basic-table--head th:first-of-type {
+  border-radius: var(--br-r-medium) 0 0 var(--br-r-medium);
+}
+
+/* The last th element on the right side will have a right outer border-radius */
+#basic-table--head th:last-of-type {
+  border-radius: 0 var(--br-r-medium) var(--br-r-medium) 0;
+}
+
+#basic-table--head th h1 {
+  color: var(--table-th--clr);
+
+  font-weight: var(--fw--semi-bold);
+  text-align: start;
+
+  user-select: none;
+}
+
+#basic-table--body {
+  border-top: 18px solid transparent;
+
+  background-color: var(--nl-clr-2);
+  border-radius: var(--br-r-medium);
+}
+
+#basic-table--body td {
+  max-width: 750px;
+  padding: 8px 20px;
+}
+
+/* Reset the border of the header row */
+#basic-table--body tr:first-of-type {
+  border: unset;
+}
+
+/* Reset the border of the last cell */
+#basic-table--body tr:last-of-type {
+  border: unset;
+}
+
+#basic-table--body tr {
+  border-bottom: 1px solid var(--table-td--border-clr);
+}
+
+#basic-table--footer {
+  background-color: var(--nl-clr-2);
+}
+
+#basic-table--footer td {
+  max-width: 750px;
+  padding: 8px 20px;
+}
+
+/* The last tr element + last td element on the right side will have a right outer border-radius */
+#basic-table--footer tr:last-of-type td:last-of-type {
+  border-radius: 0 0 var(--br-r-medium) var(--br-r-medium);
+}

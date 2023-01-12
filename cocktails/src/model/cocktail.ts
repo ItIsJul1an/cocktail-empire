@@ -1,14 +1,15 @@
-export interface Cocktail {
+export type Ingredient = {
+    readonly name: string,
+    readonly measure: string
+}
 
-    strDrink: string,
-    strVideo?: string,
-    strAlcoholic: string, 
-    strGlass: string, 
-    strInstructions: string, 
-    strDrinkThumb: string, 
-    strIngredients: string[],
-    strMeasures: string[]
-
-
-
+export interface CocktailEntity {
+    readonly id: number,
+    readonly drink: string,
+    readonly video: string,
+    readonly alcoholic: boolean,
+    readonly glass: string,
+    readonly instructions: string,
+    readonly drinkThumb: string,
+    readonly ingredients: Ingredient[]
 }
